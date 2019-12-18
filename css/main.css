@@ -102,14 +102,33 @@ textarea {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  border: 1px solid green;
 }
 
 #image-list img {
   width: 100%;
+
+  border: 1px solid blue;
 }
 
 #image-list figure {
   margin: 0;
+
+  border: 1px solid red;
+  position: relative;
+}
+
+#image-list figcaption {
+  background-color: white;
+  color:black;
+  font-weight: bold;
+  opacity: 0.6;
+
+  position: absolute;
+  bottom: 0;
+  height: 25%;
+  width: 100%;
 }
 
 
