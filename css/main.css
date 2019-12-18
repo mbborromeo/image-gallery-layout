@@ -94,26 +94,6 @@ textarea {
   padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-#image-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#image-list img {
-  width: 100%;
-}
-
-#image-list figure {
-  margin: 0;
-}
-
-
-   
 
 /* ==========================================================================
    Helper classes
@@ -123,7 +103,7 @@ textarea {
  * Hide visually and from screen readers
  */
 
-.hidden {
+ .hidden {
   display: none !important;
 }
 
@@ -198,15 +178,65 @@ textarea {
   clear: both;
 }
 
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Mobile-first approach: so we use a single-column, full-width image layout 
+ * when the screen width is less than 768px (the height of an iPad tablet) 
+ */
+#image-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#image-list .image-wrapper {
+  width: 100%;
+  height: auto;
+  display: block;  
+}
+
+#image-list img {
+  /* fill full dimensions of parent container */
+  width: 100%;
+}
+   
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
    Modify as content requires.
+
+   iPhone 8: 414px (w) x 736px (h)
+   iPhone X: 375px (w) x 812px (h)
+   iPad: 1024px (w) x 768px (h)
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
+/* For Desktop view, ie. screen width of 768px or wider */
+@media only screen and (min-width: 768px) {
+  #image-list {
+    display: flex; /* use Flex to change our single-column into a row of items */
+    flex-wrap: wrap; /* allow items to wrap onto next line. Example: https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap */
+    flex-direction: row; /* specify that we want items to appear in a horizontal row, and not a vertical column. https://www.w3schools.com/cssref/css3_pr_flex-direction.asp */
+  }
+
+  #image-list .image-wrapper {
+    width: 33.33%; /* define flex children width, so that 3 items will fit on one row. ie. 100% / 3 = 33.33%. */
+    overflow: hidden; /* as a pre-caution, but not needed */
+  }
+
+  #image-list img {      
+    /* force image element to the height of its parent wrapper, and not the image's actual height which is what happens by default */
+    height: 100%;
+    /* object-fit 'cover' means preserve aspect ratio of image, but fill up available space. 
+     * https://www.w3schools.com/css/css3_object-fit.asp 
+     */
+    object-fit: cover; 
+  }
 }
+
 
 @media print,
   (-webkit-min-device-pixel-ratio: 1.25),
