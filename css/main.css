@@ -94,26 +94,7 @@ textarea {
   padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
 
-#image-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#image-list img {
-  width: 100%;
-}
-
-#image-list figure {
-  margin: 0;
-}
-
-
-   
 
 /* ==========================================================================
    Helper classes
@@ -123,7 +104,7 @@ textarea {
  * Hide visually and from screen readers
  */
 
-.hidden {
+ .hidden {
   display: none !important;
 }
 
@@ -198,6 +179,32 @@ textarea {
   clear: both;
 }
 
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Mobile-first approach: so we use a single-column, full-width image layout 
+ * when the screen width is less than 768px (the height of an iPad tablet) 
+ */
+ #image-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#image-list .image-wrapper {
+  width: 100%;
+  height: auto;
+  display: block;  
+}
+
+#image-list img {
+  /* fill full dimensions of parent container */
+  width: 100%;
+}
+
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
@@ -206,6 +213,8 @@ textarea {
 
 @media only screen and (min-width: 35em) {
   /* Style adjustments for viewports that meet the condition */
+
+
 }
 
 @media print,
