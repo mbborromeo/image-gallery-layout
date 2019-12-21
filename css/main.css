@@ -221,8 +221,8 @@ textarea {
   }
 
   #image-list .image-wrapper {
-    width: 33.33%; /* define flex children width, so that 3 items will fit on one row. ie. 100% / 3 = 33.33%. */
-    height: 33.33vh; /* define flex children height to one-third of screen's view-height */
+    width: 33.33%; /* define flex children width, so that items will be one-third of parent container. ie. 100% / 3 = 33.33%. */
+    height: 33.33vh; /* define flex children height to one-third of screen's height, ie. view-height */
     overflow: hidden; /* as a pre-caution, but not needed */
   }
 
