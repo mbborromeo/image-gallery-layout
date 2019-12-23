@@ -186,16 +186,23 @@ textarea {
 /* Mobile-first approach: so we use a single-column, full-width image layout 
  * when the screen width is less than 768px (the height of an iPad tablet) 
  */
+body {
+  height: 100vh;
+  width: 100%;
+  background: url('../img/giphy.gif') no-repeat 50% 50% / 100px 100px;
+}
+
 #image-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0;  
+  opacity: 0;
 }
 
 #image-list .image-wrapper {
   width: 100%;
   height: auto;
-  display: block;  
+  display: block;
 }
 
 #image-list figure {
