@@ -4,10 +4,11 @@ $(document).ready(function() {
 });
 
 $(window).on( 'load', function() {
-  $("body").css("background", "none");  
-  $('#image-list').css("opacity", 1); // $('#image-list').show();
+  $("body").css("background", "none");
 
-  $(".image-wrapper").each( function(i) {
-    $(this).delay( (i + 1) * 150 ).fadeIn();
+  $('#image-list').animate( {opacity: 1}, 0, function () {
+    $(this).children().each( function(i) { // .image-wrapper
+      $(this).delay( (i + 1) * 150 ).fadeIn();
+    });
   });
 });
