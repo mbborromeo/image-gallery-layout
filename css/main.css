@@ -199,6 +199,10 @@ body {
   opacity: 0;
 }
 
+.no-js #image-list { 
+  opacity: 1;
+}
+
 #image-list .image-wrapper {
   width: 100%;
   height: auto;
