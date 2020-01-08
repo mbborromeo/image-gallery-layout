@@ -3,6 +3,8 @@ let flickrPhotos = undefined;
 function buildImageTiles(){
   let imagesArray = new Array();
 
+  let $imageList = $("<ul id='image-list'></ul>");
+
   //Preload images into array and dynamically build the content for the image tiles
   flickrPhotos.forEach( function (currentItem, i) {        
       imagesArray[i] = new Image();
@@ -18,9 +20,10 @@ function buildImageTiles(){
                       '</figure>' +
                     '</li>';
 
-      //Update page with built image tile
-      $("#image-list").append( newContent );
+      $imageList.append( newContent );
   }); 
+
+  $("body").append( $imageList );
 }
 
 //Load JSON from Flickr API call on index.html page
@@ -37,7 +40,7 @@ function jsonFlickrApi( data ){
   flickrPhotos = data.items;
   
   //Build image tiles
-  buildImageTiles();    
+  buildImageTiles();
 };
 
 function setUp() {
@@ -45,22 +48,28 @@ function setUp() {
   $("body").append( $loadScript );
 }
 
+// first thing that runs
+setUp();
+
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready.
 $(document).ready(function() {
-  setUp();
+  console.log("document ready")
 
-  // opacity of #image-list is set to 0 initially in CSS file  // $('#image-list').hide();
-  $(".image-wrapper").hide();
+  // opacity of #image-list is set to 0 initially in CSS file     // $('#image-list').hide();
+  // opacity of .image-wrapper is set to 0 initially in CSS file  // $(".image-wrapper").hide();
 });
 
 // window.load however will wait for the page to be fully loaded, this includes inner frames, images, etc.
 $(window).on( 'load', function() {
+  console.log("window loaded")
   $("body").css("background", "none");
 
   //fade in
   $('#image-list').animate( {opacity: 1}, 0, function () {
-    $(this).children().each( function(i) { // .image-wrapper
-      $(this).delay( (i + 1) * 150 ).fadeIn();
+    console.log( $(this).children().length );
+
+    $(this).children().each( function(i) { // equivalent to .image-wrapper
+      $(this).delay( (i + 1) * 150 ).animate( {opacity: 1}, 250 ); // .fadeIn()
     });
   });  
 });
