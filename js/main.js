@@ -40,16 +40,14 @@ function jsonFlickrApi( data ){
   buildImageTiles();    
 };
 
-/*
 function setUp() {
   const $loadScript = $("<script src='https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi'></script>");
   $("body").append( $loadScript );
 }
-*/
 
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready.
 $(document).ready(function() {
-  //setUp();
+  setUp();
 
   // opacity of #image-list is set to 0 initially in CSS file  // $('#image-list').hide();
   $(".image-wrapper").hide();
