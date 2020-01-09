@@ -1,41 +1,29 @@
-function buildImageTiles( flickrPhotos ){
-  // let $imageList = $("<ul id='image-list'></ul>");
-  const $imageList = $("#image-list");
+function buildImageTiles( flickrPhotos ){  
+  const $imageList = $("#image-list"); // const $imageList = $("<ul id='image-list'></ul>");
 
   //dynamically build the content for the image tiles
   flickrPhotos.forEach( function (currentItem, i) {
-      /*
-      newItem = '<li class="image-wrapper" data-id="' + i + '">' +
-                      '<figure>' +
-                        '<img src="'+ currentItem.media.m +'" alt="image '+ i +'" />' + 
-                        '<figcaption>' + 
-                          currentItem.title + '<br />' + currentItem.date_taken +
-                        '</figcaption>' +
-                      '</figure>' +
-                    '</li>';
-      */
-      const $listItem = $('<li></li>')
+      $imageList.append( 
+        $('<li></li>')
         .addClass("image-wrapper")
-        .data("id", i);
-
-      const $figure = $('<figure></figure>');
-
-      const $image = $('<img />')
-        .attr('src', currentItem.media.m)
-        .attr('alt', 'image ' + i);
-
-      // on image load, fadeIn image/list item
-
-      const $figCaption = $('<figcaption></figcaption>')
-        .html( currentItem.title + '<br />' + currentItem.date_taken );
-
-      $figure
-        .append( $image )
-        .append( $figCaption);
-
-      $listItem.append( $figure );
-
-      $imageList.append( $listItem );
+        .data("id", i)
+        .append( 
+          $('<figure></figure>')
+            .append(
+              $('<img />')
+                .attr('src', currentItem.media.m)
+                .attr('alt', 'image ' + i)
+                .on('load', function () { // on image load, fade-in list item (its parent)
+                  // console.log('image '+ i + ' loaded');
+                  $(this).parent().parent().animate( {opacity: 1}, 250 ); // .delay( (i + 1) * 150 ) before animate
+                })
+            )
+            .append(
+              $('<figcaption></figcaption>')
+                .html( currentItem.title + '<br />' + currentItem.date_taken )
+            )
+        )
+      );      
   }); 
 
   // $("body").append( $imageList );
@@ -62,28 +50,14 @@ function setUp() {
 
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready.
 $(document).ready(function() {
-  console.log("document ready")
+  //console.log("document ready")
 
-  setUp();
-
-  // opacity of #image-list is set to 0 initially in CSS file     // $('#image-list').hide();
-  // opacity of .image-wrapper is set to 0 initially in CSS file  // $(".image-wrapper").hide();
+  // opacity of .image-wrapper is set to 0 initially in CSS file
+  setUp();  
 });
 
 // window.load however will wait for the page to be fully loaded, this includes inner frames, images, scripts, objects, etc.
 $(window).on( 'load', function() {
-  console.log("window loaded")
+  //console.log("window loaded")
   $("body").css("background", "none");
-
-  //fade in
-  /* 
-  $('#image-list').animate( {opacity: 1}, 0, function () {
-    console.log( $(this).children().length );
-
-    $(this).children().each( function(i) { // equivalent to .image-wrapper
-      $(this).delay( (i + 1) * 150 ).animate( {opacity: 1}, 250 ); // .fadeIn()
-    });
-  });  
-  */
-
 });

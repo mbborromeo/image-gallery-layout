@@ -209,7 +209,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
-  /* opacity: 0; */
+  opacity: 0;
 }
 
 #image-list figure {
