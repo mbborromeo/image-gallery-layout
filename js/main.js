@@ -43,7 +43,6 @@ function buildImageTiles( flickrPhotos ){
                 .attr('alt', 'image ' + i)
                 .on('load', function () { // on image load, fade-in list item (its parent)
                   console.log('image '+ i + ' loaded');
-                  // $(this).parent().parent().animate( {opacity: 1}, 250 ); // .delay( (i + 1) * 150 ) before animate
                   onImageLoad( $(this).parent().parent() );
                 })
             )
@@ -54,8 +53,6 @@ function buildImageTiles( flickrPhotos ){
         )
       );      
   }); 
-
-  // $("body").append( $imageList );
 }
 
 //Load JSON from Flickr API call on index.html page
@@ -92,5 +89,6 @@ $(document).ready( function() {
 // window.load however will wait for the page to be fully loaded, this includes inner frames, images, scripts, objects, etc.
 $(window).on( 'load', function() {
   console.log("window loaded")
+  
   $("body").css("background", "none");
 });
