@@ -1,6 +1,6 @@
 function onImageLoad( $li ) {
   // set current li to loaded data attribute
-  $li.attr('data-loaded', true);
+  $li.data('loaded', true);
 
   // lookup all list items
   const allLis = $("#image-list li");
@@ -8,15 +8,20 @@ function onImageLoad( $li ) {
   // check whether images of all items have been loaded
   let allLoaded = true; // initially set to true in case images cached?
   allLis.each( function(_, item) {
-    if (!$(item).attr('data-loaded')) {
+    if (!$(item).data('loaded')) {
+      console.log('each', _)
       allLoaded = false;
       return false; // exit forEach loop if a list item has not loaded its image
     }
   })
 
+  // if all images have loaded, fade-in images in sequential order
+  // opacity of .image-wrapper is set to 0 initially in CSS file
   if (allLoaded) {
+    $("body").css("background", "none");
+
     allLis.each( function(i, item) {
-      $(item).delay( (i + 1) * 150 ).animate( {opacity: 1}, 250 );
+      $(item).delay( i * 150 ).animate( {opacity: 1}, 250 );
     })
   }
 }
@@ -24,21 +29,19 @@ function onImageLoad( $li ) {
 function buildImageTiles( flickrPhotos ){  
   const $imageList = $("#image-list"); // const $imageList = $("<ul id='image-list'></ul>");
 
-  //dynamically build the content for the image tiles
+  // dynamically build the content for the image tiles
   flickrPhotos.forEach( function (currentItem, i) {
-      console.log("flickrPhotos.forEach ", i)
-
       $imageList.append( 
         $('<li></li>')
         .addClass("image-wrapper")
-        .attr("data-id", i)
+        .data("id", i)
         .append( 
           $('<figure></figure>')
             .append(
               $('<img />')
                 .attr('src', currentItem.media.m)
                 .attr('alt', 'image ' + i)
-                .on('load', function () { // on image load, fade-in list item (its parent)
+                .on('load', function () {
                   console.log('image '+ i + ' loaded');
                   onImageLoad( $(this).parent().parent() );
                 })
@@ -52,10 +55,8 @@ function buildImageTiles( flickrPhotos ){
   }); 
 }
 
-//Load JSON from Flickr API call on index.html page
+// handle response of load from Flickr API call
 function jsonFlickrApi( data ){
-  console.log("jsonFlickrApi")
-
   //To Do: Possible check if returned data from API call is not OK
   /*
   if(data.stat != "ok"){
@@ -68,24 +69,14 @@ function jsonFlickrApi( data ){
   buildImageTiles( data.items );
 };
 
-function setUp() {
-  console.log("set up")
-
-  const $loadScript = $("<script src='https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi'></script>");
-  $("body").append( $loadScript );
+function loadPhotos() {
+  $("body").append( 
+    $("<script></script>")
+      .attr('src', 'https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi')
+  );
 }
 
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready.
 $(document).ready( function() {
-  console.log("document ready")
-
-  // opacity of .image-wrapper is set to 0 initially in CSS file
-  setUp();  
-});
-
-// window.load however will wait for the page to be fully loaded, this includes inner frames, images, scripts, objects, etc.
-$(window).on( 'load', function() {
-  console.log("window loaded")
-
-  $("body").css("background", "none");
+  loadPhotos();  
 });
