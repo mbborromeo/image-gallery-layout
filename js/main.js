@@ -2,22 +2,19 @@ function onImageLoad( $li ) {
   // set current li to loaded data attribute
   $li.attr('data-loaded', true);
 
+  // lookup all list items
   const allLis = $("#image-list li");
 
-  // check all items for all images loaded
-  let allLoaded = true; // initially set to true in case images cached
-  allLis.each( function(i, item) { // (_, item)
+  // check whether images of all items have been loaded
+  let allLoaded = true; // initially set to true in case images cached?
+  allLis.each( function(_, item) {
     if (!$(item).attr('data-loaded')) {
-      //console.log("not loaded - ", i)
-
       allLoaded = false;
       return false; // exit forEach loop if a list item has not loaded its image
     }
   })
 
   if (allLoaded) {
-    //console.log("allLoaded")
-
     allLis.each( function(i, item) {
       $(item).delay( (i + 1) * 150 ).animate( {opacity: 1}, 250 );
     })
@@ -89,6 +86,6 @@ $(document).ready( function() {
 // window.load however will wait for the page to be fully loaded, this includes inner frames, images, scripts, objects, etc.
 $(window).on( 'load', function() {
   console.log("window loaded")
-  
+
   $("body").css("background", "none");
 });
