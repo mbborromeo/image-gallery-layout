@@ -6,7 +6,7 @@ function onImageLoad( $li ) {
   const allLis = $("#image-list li");
 
   // check whether images of all items have been loaded
-  let allLoaded = true; // initially set to true in case images cached?
+  let allLoaded = true;
   allLis.each( function(_, item) {
     if (!$(item).data('loaded')) {
       console.log('each', _)
