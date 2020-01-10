@@ -7,7 +7,7 @@ function checkAllImagesLoaded( $listItems ) {
     const loaded = $(item).data('loaded'); // const loaded = item.hasAttribute('data-loaded'); // $(item).attr('data-loaded')
 
     if( !loaded ){
-      console.log("IMG", _, "not loaded! item is ", item)
+      console.log("IMG", _, "NOT LOADED! item:", item, "img.complete", $(item).find("img")[0].complete, "img.src", $(item).find("img")[0].src )
 
       allLoaded = false;
       console.log("allLoaded:", allLoaded)
@@ -64,11 +64,11 @@ function buildImageTiles( flickrPhotos ){
                 .attr('src', currentItem.media.m)
                 .attr('alt', 'image ' + i)
                 .on('load', function () {
-                  console.log('image', i, 'loaded -', $(this), 'src is:', $(this)[0].src );
+                  console.log('LOADED image', i, $(this), 'complete is:', $(this)[0].complete, 'src is:', $(this)[0].src );
                   onImageLoad( $(this).parent().parent() );
                 })
                 .on('error', function () {
-                  console.log('image', i, 'error loading -', $(this), 'src is:', $(this)[0].src );
+                  console.log('image', i, 'ERROR loading -', $(this), 'complete is:', $(this)[0].complete, 'src is:', $(this)[0].src );
                   onImageError( $(this).parent().parent() );
                 })
             )
