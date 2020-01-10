@@ -1,26 +1,37 @@
-function onImageLoad( $li ) {
-  // set current li to loaded data attribute
-  $li.data('loaded', true);
-
-  // lookup all list items
-  const allLis = $("#image-list li");
-
-  // check whether images of all items have been loaded
+function checkAllImagesLoaded( $listItems ) {
   let allLoaded = true;
-  allLis.each( function(_, item) {
-    if (!$(item).data('loaded')) {
-      console.log('each', _)
+
+  $listItems.each( function(_, item) {
+    console.log('each', _)
+
+    if( !$(item).attr('data-loaded') ){
+      console.log("IMG", _, "not loaded!")
+
       allLoaded = false;
+      console.log("allLoaded:", allLoaded)
+      
       return false; // exit forEach loop if a list item has not loaded its image
     }
-  })
+  });
+
+  return allLoaded;    
+}
+
+function onImageLoad( $li ) {
+  // set current li to loaded data attribute
+  $li.attr('data-loaded', true);
+
+  // lookup all list items
+  const $allLis = $("#image-list li");
 
   // if all images have loaded, fade-in images in sequential order
   // opacity of .image-wrapper is set to 0 initially in CSS file
-  if (allLoaded) {
+  if( checkAllImagesLoaded( $allLis ) ){
+    console.log("all images loaded")
+
     $("body").css("background", "none");
 
-    allLis.each( function(i, item) {
+    $allLis.each( function(i, item) {
       $(item).delay( i * 150 ).animate( {opacity: 1}, 250 );
     })
   }
@@ -42,7 +53,7 @@ function buildImageTiles( flickrPhotos ){
                 .attr('src', currentItem.media.m)
                 .attr('alt', 'image ' + i)
                 .on('load', function () {
-                  console.log('image '+ i + ' loaded');
+                  console.log('image', i, 'loaded');
                   onImageLoad( $(this).parent().parent() );
                 })
             )
