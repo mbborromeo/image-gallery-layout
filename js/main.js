@@ -4,7 +4,7 @@ function checkAllImagesLoaded( $listItems ) {
   $listItems.each( function(_, item) {
     console.log('each index', _)
 
-    let loaded = $(item).attr('data-loaded');
+    const loaded = item.hasAttribute('data-loaded'); // $(item).attr('data-loaded')
 
     if( !loaded ){
       console.log("IMG", _, "not loaded!")
