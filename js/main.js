@@ -2,9 +2,11 @@ function checkAllImagesLoaded( $listItems ) {
   let allLoaded = true;
 
   $listItems.each( function(_, item) {
-    console.log('each', _)
+    console.log('each index', _)
 
-    if( !$(item).attr('data-loaded') ){
+    let loaded = $(item).attr('data-loaded');
+
+    if( !loaded ){
       console.log("IMG", _, "not loaded!")
 
       allLoaded = false;
@@ -17,10 +19,7 @@ function checkAllImagesLoaded( $listItems ) {
   return allLoaded;    
 }
 
-function onImageLoad( $li ) {
-  // set current li to loaded data attribute
-  $li.attr('data-loaded', true);
-
+function staggerFadeInImages() {
   // lookup all list items
   const $allLis = $("#image-list li");
 
@@ -35,6 +34,18 @@ function onImageLoad( $li ) {
       $(item).delay( i * 150 ).animate( {opacity: 1}, 250 );
     })
   }
+}
+
+function onImageLoad( $li ) {
+  // set data-loaded flag of corresponding li of loaded image
+  $li.attr('data-loaded', true);
+  staggerFadeInImages();
+}
+
+function onImageError( $li ) {
+  // set data-loaded flag of corresponding li of loaded image
+  $li.attr('data-loaded', 'error');
+  staggerFadeInImages();
 }
 
 function buildImageTiles( flickrPhotos ){  
@@ -55,6 +66,10 @@ function buildImageTiles( flickrPhotos ){
                 .on('load', function () {
                   console.log('image', i, 'loaded');
                   onImageLoad( $(this).parent().parent() );
+                })
+                .on('error', function () {
+                  console.log('image', i, 'error loading');
+                  onImageError( $(this).parent().parent() );
                 })
             )
             .append(
