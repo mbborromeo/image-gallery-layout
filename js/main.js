@@ -96,13 +96,31 @@ function jsonFlickrApi( data ){
 };
 
 function loadPhotos() {
+  /*
   $("body").append( 
     $("<script></script>")
       .attr('src', 'https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi')
   );
+  */
+
+  console.log("loadPhotos")
+
+  // use fetch-jsonp imported from CDN https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.1.3/fetch-jsonp.min.js in index.html file.
+  fetchJsonp('https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi', {
+    jsonpCallback: 'jsoncallback'
+  }).then( function(response) {
+    return response.json(); 
+  }).then( function(json) {
+    console.log('parsed successful - json', json);
+  }).catch( function(ex) {
+    console.log('parsing failed', ex);
+  });
+
 }
 
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready.
 $(document).ready( function() {
+  console.log("doc ready");
+
   loadPhotos();  
 });
