@@ -93,12 +93,14 @@ function loadPhotos() {
   );
   */
 
+  // Resource: https://www.npmjs.com/package/fetch-jsonp
   // use fetch-jsonp imported from CDN https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.1.3/fetch-jsonp.min.js in index.html file.
   // current currect call: https://api.flickr.com/services/feeds/photos_public.gne?format=json
   // failed sample: https://www.flickr.com/services/rest/?method=flickr.blogs.getList&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
   // pass sample (not sure why doesn't continue): https://www.flickr.com/services/rest/?method=flickr.test.echo&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
   fetchJsonp('https://api.flickr.com/services/feeds/photos_public.gne?format=json', { // &jsoncallback=jsonFlickrApi
     jsonpCallback: 'jsoncallback'
+    //, jsonpCallbackFunction: 'jsonFlickrApi'
   }).then( function(response) {
     console.log("response", response)
 
@@ -120,7 +122,7 @@ function loadPhotos() {
       return; // Exit, do not continue
     } 
     
-    buildImageTiles( json.items ); // try callback here instead of URL, jsonFlickrApi( json ); 
+    buildImageTiles( json.items ); // try callback here instead of in URL calling jsonFlickrApi( json )
   }).catch( function(ex) {
     console.log('parsing failed', ex);
   });
