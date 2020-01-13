@@ -2,15 +2,10 @@ function checkAllImagesLoaded( $listItems ) {
   let allLoaded = true;
 
   $listItems.each( function(_, item) {
-    console.log('each index', _)
-
     const loaded = item.hasAttribute('data-loaded'); // $(item).attr('data-loaded')
 
     if( !loaded ){
-      console.log("IMG", _, "not loaded!")
-
       allLoaded = false;
-      console.log("allLoaded:", allLoaded)
       
       return false; // exit forEach loop if a list item has not loaded its image
     }
@@ -26,8 +21,6 @@ function staggerFadeInImages() {
   // if all images have loaded, fade-in images in sequential order
   // opacity of .image-wrapper is set to 0 initially in CSS file
   if( checkAllImagesLoaded( $allLis ) ){
-    console.log("all images loaded")
-
     $("body").css("background", "none");
 
     $allLis.each( function(i, item) {
@@ -64,7 +57,6 @@ function buildImageTiles( flickrPhotos ){
                 .attr('src', currentItem.media.m)
                 .attr('alt', 'image ' + i)
                 .on('load', function () {
-                  console.log('image', i, 'loaded');
                   onImageLoad( $(this).parent().parent() );
                 })
                 .on('error', function () {
@@ -82,18 +74,16 @@ function buildImageTiles( flickrPhotos ){
 }
 
 // handle response of load from Flickr API call
+/*
 function jsonFlickrApi( data ){
-  //To Do: Possible check if returned data from API call is not OK
-  /*
-  if(data.stat != "ok"){
-    console.log("Error reading JSON API call");
-    return; //Exit, do not continue
-  }
-  */
+  console.log("jsonFlickrApi");
+
+  // check if returned data from API call is not OK
 
   //If status is OK, continue
   buildImageTiles( data.items );
 };
+*/
 
 function loadPhotos() {
   /*
@@ -103,24 +93,47 @@ function loadPhotos() {
   );
   */
 
-  console.log("loadPhotos")
-
   // use fetch-jsonp imported from CDN https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.1.3/fetch-jsonp.min.js in index.html file.
-  fetchJsonp('https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=jsonFlickrApi', {
+  // current currect call: https://api.flickr.com/services/feeds/photos_public.gne?format=json
+  // failed sample: https://www.flickr.com/services/rest/?method=flickr.blogs.getList&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
+  // pass sample (not sure why doesn't continue): https://www.flickr.com/services/rest/?method=flickr.test.echo&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
+  fetchJsonp('https://api.flickr.com/services/feeds/photos_public.gne?format=json', { // &jsoncallback=jsonFlickrApi
     jsonpCallback: 'jsoncallback'
   }).then( function(response) {
+    console.log("response", response)
+
+    if( !response.ok ){
+      console.log("JSON API call response not OK", response.ok);
+      return; // Exit, do not continue
+    } 
+    
     return response.json(); 
   }).then( function(json) {
     console.log('parsed successful - json', json);
+
+    if( json.stat === 'fail' ){
+      console.log("JSON API call response.json failed", json.stat, json.code, json.message);
+
+      $("body").css("background", "none");
+      $("body").text("Error loading images");
+
+      return; // Exit, do not continue
+    } 
+    
+    buildImageTiles( json.items ); // try callback here instead of URL, jsonFlickrApi( json ); 
   }).catch( function(ex) {
     console.log('parsing failed', ex);
   });
-
 }
 
-// document.ready will execute right after the HTML document is loaded property and the DOM is ready.
+// document.ready will execute right after the HTML document is loaded property and the DOM is ready
 $(document).ready( function() {
-  console.log("doc ready");
+  console.log("doc ready");   
+});
 
-  loadPhotos();  
+// wait for the scripts, images to be fully loaded
+$(window).on('load', function() {
+  console.log("window fully loaded");
+
+  loadPhotos(); 
 });
