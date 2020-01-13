@@ -99,8 +99,8 @@ function loadPhotos() {
   // failed sample: https://www.flickr.com/services/rest/?method=flickr.blogs.getList&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
   // pass sample (not sure why doesn't continue): https://www.flickr.com/services/rest/?method=flickr.test.echo&format=json&api_key=4151156e60f0f6d624dfa9c224d7cdf8
   fetchJsonp('https://api.flickr.com/services/feeds/photos_public.gne?format=json', { // &jsoncallback=jsonFlickrApi
-    jsonpCallback: 'jsoncallback', 
-    jsonpCallbackFunction: 'jsonFlickrApi'
+    jsonpCallback: 'jsoncallback' // , 
+    // jsonpCallbackFunction: 'jsonFlickrApi'
   }).then( function(response) {
     console.log("response", response)
 
