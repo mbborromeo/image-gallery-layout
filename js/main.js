@@ -2,7 +2,7 @@ function checkAllImagesLoaded( $listItems ) {
   let allLoaded = true;
 
   $listItems.each( function(_, item) {
-    const loaded = item.hasAttribute('data-loaded'); // $(item).attr('data-loaded')
+    const loaded = $(item).data('loaded'); // const loaded = item.hasAttribute('data-loaded'); // $(item).attr('data-loaded')
 
     if( !loaded ){
       allLoaded = false;
@@ -31,13 +31,13 @@ function staggerFadeInImages() {
 
 function onImageLoad( $li ) {
   // set data-loaded flag of corresponding li of loaded image
-  $li.attr('data-loaded', true);
+  $li.data('loaded', true); // $li.attr('data-loaded', true);
   staggerFadeInImages();
 }
 
 function onImageError( $li ) {
   // set data-loaded flag of corresponding li of loaded image
-  $li.attr('data-loaded', 'error');
+  $li.data('loaded', 'error'); //$li.attr('data-loaded', 'error');
   staggerFadeInImages();
 }
 
