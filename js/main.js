@@ -102,8 +102,6 @@ function loadPhotos() {
     jsonpCallback: 'jsoncallback' // , 
     // jsonpCallbackFunction: 'jsonFlickrApi'
   }).then( function(response) {
-    console.log("response", response)
-
     if( !response.ok ){
       console.log("JSON API call response not OK", response.ok);
       return; // Exit, do not continue
@@ -111,8 +109,6 @@ function loadPhotos() {
     
     return response.json(); 
   }).then( function(json) {
-    console.log('parsed successful - json', json);
-
     if( json.stat === 'fail' ){
       console.log("JSON API call response.json failed", json.stat, json.code, json.message);
 
@@ -131,12 +127,10 @@ function loadPhotos() {
 
 // document.ready will execute right after the HTML document is loaded property and the DOM is ready
 $(document).ready( function() {
-  console.log("doc ready");   
+  
 });
 
 // wait for the scripts, images to be fully loaded
 $(window).on('load', function() {
-  console.log("window fully loaded");
-
   loadPhotos(); 
 });
