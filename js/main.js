@@ -122,7 +122,7 @@ function loadPhotos() {
   });
 }
 
-// document.ready will execute right after the HTML document is loaded property and the DOM is ready
+// document.ready executes right after the HTML document is loaded property and the DOM is ready
 $(document).ready( function() {
   
 });
