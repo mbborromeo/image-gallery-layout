@@ -1,2 +1,2 @@
 # image-gallery-layout
-Image Gallery responsive layout CSS
+Image Gallery using jQuery & CSS - includes branches moving from static images to images from API call, and from fixed desktop layout to fluid mobile responsive layout.
