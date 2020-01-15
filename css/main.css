@@ -94,18 +94,6 @@ textarea {
   padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-
-
-
-
-
-
-   
 
 /* ==========================================================================
    Helper classes
@@ -115,7 +103,7 @@ textarea {
  * Hide visually and from screen readers
  */
 
-.hidden {
+ .hidden {
   display: none !important;
 }
 
@@ -190,15 +178,119 @@ textarea {
   clear: both;
 }
 
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Mobile-first approach: so we use a single-column, full-width image layout 
+ * when the screen width is less than 768px (the height of an iPad tablet) 
+ */
+body {
+  height: 100vh;
+  width: 100%;
+  background: url('../img/giphy.gif') no-repeat 50% 50% / 100px 100px;
+}
+
+#image-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;  
+  /* opacity: 0; */
+}
+
+/*
+.no-js #image-list { 
+  opacity: 1;
+}
+*/
+
+#image-list .image-wrapper {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+}
+
+#image-list figure {
+  margin: 0;
+  position: relative;
+  height: 100%;
+}
+
+#image-list figure img {
+  /* fill full dimensions of parent container */
+  width: 100%;  
+  transform: scale(1);
+  -webkit-transition: transform .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -moz-transition: transform .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -o-transition: transform .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -ms-transition: transform .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  transition: transform .5s cubic-bezier(0.25,0.1,0.25,1.0);
+}
+
+#image-list figure figcaption {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  opacity: 0.7;
+  -webkit-transition: opacity .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -moz-transition: opacity .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -o-transition: opacity .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  -ms-transition: opacity .5s cubic-bezier(0.25,0.1,0.25,1.0);
+  transition: opacity .5s cubic-bezier(0.25,0.1,0.25,1.0);
+}
+   
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
    Modify as content requires.
+
+   iPad: 1024px (w) x 768px (h)
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
+/* For Desktop view, ie. screen width of 768px or wider */
+@media only screen and (min-width: 768px) {
+  #image-list {
+    display: flex; /* use Flex to change our single-column into a row of items */
+    flex-wrap: wrap; /* allow items to wrap onto next line. Example: https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap */
+    flex-direction: row; /* specify that we want items to appear in a horizontal row, and not a vertical column. https://www.w3schools.com/cssref/css3_pr_flex-direction.asp */
+  }
+
+  #image-list .image-wrapper {
+    width: 33.33%; /* define flex children width, so that items will be one-third of parent container. ie. 100% / 3 = 33.33%. */
+    height: 33.33vh; /* define flex children height to one-third of screen's height, ie. view-height */
+    overflow: hidden; /* as a pre-caution, but not needed */
+  }
+
+  #image-list figure img {      
+    /* force image element to the height of its parent wrapper, and not the image's actual height which is what happens by default */
+    height: 100%;
+    /* object-fit 'cover' means preserve aspect ratio of image, but fill up available space. 
+     * https://www.w3schools.com/css/css3_object-fit.asp 
+     */
+    object-fit: cover; 
+  }
+
+  #image-list figure figcaption {
+    opacity: 0;
+  }
+
+  #image-list figure:hover figcaption {
+    opacity: 0.7;
+  }
+
+  #image-list figure:hover img {
+    transform: scale(1.10);
+  }
 }
+
 
 @media print,
   (-webkit-min-device-pixel-ratio: 1.25),
